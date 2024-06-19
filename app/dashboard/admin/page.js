@@ -72,6 +72,9 @@ const admin = () => {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+  const dataAdmin = { first_name: '', last_name: '', email: '', password: '', birth_date_dayjs: null, gender: '' };
+  const [initialValue, setInitialValue] = useState(dataAdmin);
+
   useEffect(() => {
     if (openFrom === 'edit' || openFrom === 'delete') {
       fetch(baseUrl + '/' + idRow)
@@ -84,9 +87,6 @@ const admin = () => {
       setInitialValue(dataAdmin);
     }
   }, [openFrom]);
-
-  const dataAdmin = { first_name: '', last_name: '', email: '', password: '', birth_date_dayjs: null, gender: '' };
-  const [initialValue, setInitialValue] = useState(dataAdmin);
 
   const handleSubmitForm = async (values) => {
     values.birth_date = dayjs(new Date(values.birth_date_dayjs)).format('DD-MMM-YYYY');
