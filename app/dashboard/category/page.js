@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect, useMemo } from 'react';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import {
   Box,
   Button,
@@ -9,25 +8,14 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  FormControlLabel,
   FormHelperText,
-  FormLabel,
   Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Radio,
-  RadioGroup,
   TextField,
   Typography
 } from '@mui/material';
 import MaterialTable from '@/components/table';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNotificationStore } from '@/stores/notification';
 
 const category = () => {
@@ -54,7 +42,6 @@ const category = () => {
   const [open, setOpen] = useState(false);
   const [openFrom, setOpenFrom] = useState('');
   const [idRow, setIdRow] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleOpen = (openFrom, idRow = '') => {
     setOpen(true);
@@ -66,8 +53,6 @@ const category = () => {
     setOpenFrom('');
     setIdRow('');
   };
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const dataCategory = { name: '', description: '' };
   const [initialValue, setInitialValue] = useState(dataCategory);
@@ -86,9 +71,6 @@ const category = () => {
   }, [openFrom]);
 
   const handleSubmitForm = async (values) => {
-    values.birth_date = dayjs(new Date(values.birth_date_dayjs)).format('DD-MMM-YYYY');
-
-    let { birth_date_dayjs, ...body } = values;
     let url, method, message;
 
     if (openFrom === 'create') {
@@ -106,7 +88,7 @@ const category = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(values)
     });
 
     if (res.ok) {
